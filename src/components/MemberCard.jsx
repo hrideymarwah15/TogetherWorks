@@ -35,15 +35,21 @@ export default function MemberCard({ memberName }) {
   };
 
   return (
-    <article className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+    <article className="bg-white border border-stone-200 rounded-lg p-4 shadow-sm dark:bg-slate-900 dark:border-slate-800">
       <div className="flex items-start justify-between gap-3 mb-5">
         <div>
-          <h3 className="font-semibold text-slate-800">{memberName}</h3>
-          <p className="text-xs text-slate-400">Peer score</p>
+          <h3 className="font-semibold text-slate-950 dark:text-white">
+            {memberName}
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Peer score
+          </p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-brand">{average}</p>
-          <p className="text-xs text-slate-400">average</p>
+          <p className="text-2xl font-bold text-brand dark:text-brand-dark">
+            {average}
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">average</p>
         </div>
       </div>
 
@@ -51,10 +57,10 @@ export default function MemberCard({ memberName }) {
         {CRITERIA.map((item) => (
           <label key={item.key} className="block">
             <div className="flex items-center justify-between gap-3 mb-2">
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
                 {item.label}
               </span>
-              <span className="text-sm font-semibold text-slate-500">
+              <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                 {ratings[item.key]}
               </span>
             </div>
@@ -64,7 +70,7 @@ export default function MemberCard({ memberName }) {
               max="10"
               value={ratings[item.key]}
               onChange={(e) => updateRating(item.key, e.target.value)}
-              className="w-full accent-brand"
+              className="w-full accent-brand dark:accent-brand-dark"
             />
           </label>
         ))}
@@ -73,7 +79,7 @@ export default function MemberCard({ memberName }) {
       <button
         type="button"
         onClick={submitScore}
-        className="mt-5 w-full bg-brand text-white px-4 py-2 rounded font-medium hover:opacity-90"
+        className="mt-5 w-full bg-brand text-white px-4 py-2 rounded-lg font-medium hover:bg-teal-800 transition dark:bg-brand-dark dark:text-slate-950 dark:hover:bg-teal-200"
       >
         {submitted ? "Score submitted" : "Submit score"}
       </button>
