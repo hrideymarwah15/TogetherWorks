@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export const AppContext = createContext(null);
 
@@ -8,10 +8,20 @@ export function useApp() {
   return ctx;
 }
 
+function getInitialTheme() {
+  if (typeof window === "undefined") return "light";
+  const savedTheme = window.localStorage.getItem("theme");
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
 export function AppProvider({ children }) {
   const [members] = useState(["Hridey", "Aarav", "Riya"]);
   const [currentMember, setCurrentMember] = useState("Hridey");
   const [stage, setStage] = useState(1);
+  const [theme, setTheme] = useState(getInitialTheme);
 
   const [ideas, setIdeas] = useState([]);
   const [votes, setVotes] = useState({});
@@ -19,6 +29,11 @@ export function AppProvider({ children }) {
 
   const [tasks, setTasks] = useState([]);
   const [scores, setScores] = useState({});
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const addIdea = (title, desc) => {
     if (!title.trim()) return;
@@ -66,6 +81,10 @@ export function AppProvider({ children }) {
     if (topId) setStage(3);
   };
 
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
   const value = useMemo(
     () => ({
       members,
@@ -73,6 +92,8 @@ export function AppProvider({ children }) {
       setCurrentMember,
       stage,
       setStage,
+      theme,
+      toggleTheme,
       ideas,
       addIdea,
       removeIdea,
@@ -85,7 +106,7 @@ export function AppProvider({ children }) {
       scores,
       setScores,
     }),
-    [members, currentMember, stage, ideas, votes, winnerId, tasks, scores]
+    [members, currentMember, stage, theme, ideas, votes, winnerId, tasks, scores]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

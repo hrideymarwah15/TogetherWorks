@@ -18,12 +18,12 @@ export default function App() {
     : Score;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-stone-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
       <Navbar />
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:py-8">
         <Page />
       </main>
-      <footer className="text-center text-xs text-slate-400 py-4">
+      <footer className="text-center text-xs text-slate-500 py-5 dark:text-slate-500">
         TogetherWorks
       </footer>
     </div>
