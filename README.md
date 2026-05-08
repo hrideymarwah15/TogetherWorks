@@ -1,16 +1,53 @@
-# React + Vite
+# TogetherWorks
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TogetherWorks is a lightweight team project workflow app that helps a group move from raw ideas to a chosen build, assigned tasks, Kanban progress, and peer scoring in one shared React interface.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- Vite
+- Tailwind 3
 
-## React Compiler
+## How It Works
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Stage 1 · Dump: teammates add project ideas to the pool.
+2. Stage 2 · Vote: members vote on the strongest idea.
+3. Stage 3 · Assign: the winning idea is split into assigned tasks.
+4. Stage 4 · Build: tasks move through To Do, In Progress, and Done.
+5. Stage 5 · Score: teammates rate each other and view the ranking.
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+## Folder Structure
+
+```text
+TogetherWorks/
+├── index.html
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+├── vite.config.js
+└── src/
+    ├── App.jsx
+    ├── main.jsx
+    ├── index.css
+    ├── components/
+    │   ├── IdeaCard.jsx
+    │   ├── MemberCard.jsx
+    │   ├── Navbar.jsx
+    │   ├── TaskBoard.jsx
+    │   └── VoteCard.jsx
+    ├── context/
+    │   └── AppContext.jsx
+    └── pages/
+        ├── Assign.jsx
+        ├── Build.jsx
+        ├── Dump.jsx
+        ├── Score.jsx
+        └── Vote.jsx
+```
