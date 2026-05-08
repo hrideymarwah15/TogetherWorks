@@ -1,0 +1,93 @@
+import { useApp } from "../context/AppContext.jsx";
+
+const COLUMNS = [
+  { id: "todo", title: "To Do" },
+  { id: "inprogress", title: "In Progress" },
+  { id: "done", title: "Done" },
+];
+
+export default function TaskBoard() {
+  const { tasks, setTasks, currentMember } = useApp();
+
+  const moveTask = (taskId, direction) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id !== taskId) return task;
+
+        const currentIndex = COLUMNS.findIndex((column) => column.id === task.status);
+        const nextIndex = currentIndex + direction;
+
+        if (nextIndex < 0 || nextIndex >= COLUMNS.length) return task;
+
+        return { ...task, status: COLUMNS[nextIndex].id };
+      })
+    );
+  };
+
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {COLUMNS.map((column, columnIndex) => {
+        const columnTasks = tasks.filter((task) => task.status === column.id);
+
+        return (
+          <section
+            key={column.id}
+            className="bg-white border border-slate-200 rounded-lg p-4 min-h-60"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="font-semibold text-slate-800">{column.title}</h3>
+              <span className="text-xs font-semibold text-slate-400">
+                {columnTasks.length}
+              </span>
+            </div>
+
+            {columnTasks.length === 0 ? (
+              <p className="text-sm text-slate-400 mt-4">No tasks here.</p>
+            ) : (
+              <div className="mt-4 space-y-3">
+                {columnTasks.map((task) => {
+                  const isMine = task.assignee === currentMember;
+
+                  return (
+                    <article
+                      key={task.id}
+                      className={
+                        "rounded-lg border bg-slate-50 p-3 shadow-sm " +
+                        (isMine ? "border-brand" : "border-slate-200")
+                      }
+                    >
+                      <h4 className="text-sm font-semibold text-slate-800">
+                        {task.title}
+                      </h4>
+                      <p className="text-xs text-slate-500 mt-1">
+                        {task.assignee}
+                      </p>
+                      <div className="flex items-center justify-between gap-2 mt-3">
+                        <button
+                          type="button"
+                          onClick={() => moveTask(task.id, -1)}
+                          disabled={columnIndex === 0}
+                          className="h-8 w-8 rounded border border-slate-300 text-slate-600 disabled:cursor-not-allowed disabled:opacity-40 hover:bg-white"
+                        >
+                          ←
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveTask(task.id, 1)}
+                          disabled={columnIndex === COLUMNS.length - 1}
+                          className="h-8 w-8 rounded border border-slate-300 text-slate-600 disabled:cursor-not-allowed disabled:opacity-40 hover:bg-white"
+                        >
+                          →
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        );
+      })}
+    </div>
+  );
+}
